@@ -1,10 +1,7 @@
 import React from 'react'
-import { ShoppingCart, UserIcon } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Button } from '@/components/ui/button'
 import { APP_NAME } from '@/lib/constants'
-import ModeToggle from "@/components/ui/shared/header/mode-toggle"
 import Menu from "@/components/ui/shared/header/menu";
 
 

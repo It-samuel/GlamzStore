@@ -1,8 +1,14 @@
+import sampleData from '@/db/sample-data'
+import ProductList from '@/components/ui/shared/products/product-list'
 
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-export default async function HomePage() {
-  await delay(3000); // Simulate a delay for loading effect
+
+
+export default  function HomePage() {
+ 
   return (
-    <div>HomePage...</div>
+    <>
+      <ProductList data={sampleData.products} title='Newest Arrivals' limit={4}/>
+      
+    </>
   )
 }
