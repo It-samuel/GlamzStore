@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getProductBySlug } from "@/lib/actions/product.actions";
 import { notFound } from "next/navigation";
 import ProductPrice from "@/components/ui/shared/products/product-price";
+import ProductImages from "@/components/ui/shared/products/product-images";
 
 
 export default async function ProductDetailsPage(props: {
@@ -21,6 +22,7 @@ export default async function ProductDetailsPage(props: {
         {/* Image colum */}
         <div className="col-span-2">
           {/* Image Components */}
+          <ProductImages images={product.images} />
         </div>
         {/* Details column */}
         <div className="col-span-2 p-5">
