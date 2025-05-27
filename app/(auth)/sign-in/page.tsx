@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import CredentialsSignInForm from "./credentials-signin-form";
 
 
 export const metadate: Metadata = {
@@ -24,7 +25,7 @@ export default function SigbInPage() {
             </CardHeader>
 
             <CardContent className="space-y-4">
-
+                <CredentialsSignInForm />
             </CardContent>
         </Card>
 
