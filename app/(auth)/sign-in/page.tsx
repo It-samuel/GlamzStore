@@ -3,13 +3,27 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import CredentialsSignInForm from "./credentials-signin-form";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 
 export const metadate: Metadata = {
     title: 'Sign In'
 }
 
-export default function SigbInPage() {
+export default async function SigbInPage(props: {
+    searchParams: Promise<{
+        callbackUrl: string
+    }>
+}) {
+    const {callbackUrl} = await props.searchParams;
+
+    const session = await auth()
+
+    if (session){
+        return redirect(callbackUrl || '/')
+    }
+
   return (
     <div className="w-full max-w-md mx-auto">
         <Card>
