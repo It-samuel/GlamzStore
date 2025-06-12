@@ -2,16 +2,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import CredentialsSignInForm from "./credentials-signin-form";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import SignUpForm from "./sign-up-form";
 
 
 export const metadate: Metadata = {
-    title: 'Sign In'
+    title: 'Sign Up'
 }
 
-export default async function SignInPage(props: {
+export default async function SignUpPage(props: {
     searchParams: Promise<{
         callbackUrl: string
     }>
@@ -31,15 +31,15 @@ export default async function SignInPage(props: {
                 <Link href='/' className="flex-center">
                     <Image src='/images/favicon.png' alt="logo" width={100} height={100} priority={true}/>
                 </Link>
-                <CardTitle className="text-center"> Sign In</CardTitle>
+                <CardTitle className="text-center"> Create Account</CardTitle>
                 <CardDescription className="text-center">
-                    Sign in to your account
+                    Enter your information below to sign up
 
                 </CardDescription>
             </CardHeader>
 
             <CardContent className="space-y-4">
-                <CredentialsSignInForm />
+                <SignUpForm />
             </CardContent>
         </Card>
 
