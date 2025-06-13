@@ -4,9 +4,6 @@ import {prisma} from '@/db/prisma'
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compareSync } from "bcrypt-ts-edge";
 import type { NextAuthConfig } from "next-auth";
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
-
 
 export const config = {
     pages: {
@@ -59,6 +56,8 @@ export const config = {
 
     callbacks: {
         async session({session, user, trigger, token}: any) {
+            console.log('Session callback triggered:', { session, token, trigger });
+            
             // set the user Id from the token
             session.user.id = token.sub;
             session.user.role = token.role;
@@ -68,10 +67,14 @@ export const config = {
             if(trigger === 'update') {
                 session.user.name = user.name
             }
+            
+            console.log('Final session object:', session);
             return session
         },
 
         async jwt({token, user, trigger, session}: any) {
+            console.log('JWT callback triggered:', { token, user, trigger });
+            
             // Assign user field to token
             if (user){
                 token.role = user.role;
@@ -85,37 +88,33 @@ export const config = {
                         where: {id: user.id},
                         data: {name: token.name}
                     })
-
                 }
-
-
             }
 
+            console.log('Final token object:', token);
             return token
         },
+        
+        // Fixed authorized callback
         authorized({ request, auth}: any) {
-            // Check new session cart id cookie
-            if(!request.cookies.get('sessionCartId')){
-                const sessionCartId = crypto.randomUUID()
-
-                // Clone request headers
-                const newRequestHeaders = new Headers(request.headers);
-
-                // Create new response and add the new headers
-                const response = NextResponse.next({
-                    request: {
-                        headers: newRequestHeaders
-                    }
-                });
-
-                // Set newly generated sessionCartId in the response cookies
-                response.cookies.set('sessionCartId', sessionCartId)
-
-                return true;
+            console.log('Authorized callback triggered');
+            console.log('Auth object:', auth);
+            console.log('Request URL:', request.nextUrl.pathname);
             
-            } else{
-                return true;
+            // Check if user is authenticated for protected routes
+            const { pathname } = request.nextUrl;
+            
+            // Define protected routes
+            const protectedRoutes = ['/dashboard', '/profile', '/admin'];
+            const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
+            
+            if (isProtectedRoute && !auth) {
+                console.log('Access denied - no auth for protected route');
+                return false;
             }
+            
+            console.log('Access granted');
+            return true;
         },
     },
 } satisfies NextAuthConfig;

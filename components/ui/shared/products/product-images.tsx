@@ -6,13 +6,13 @@ export default function ProductImages({ images }: { images: string[] }) {
     const [current, setCurrent] = useState(0); 
   return (
     <div className="space-y-4">
-        <Image
-            src={images[current]}
-            alt="Product Image"
-            width={1000}
-            height={1000}
-            className="min-h-[300px]" object-cover object-center
-            />
+       <Image
+        src={images[current]}
+        alt="Product Image"
+        width={1000}
+        height={1000}
+        className="min-h-[300px] object-cover object-center"
+        />
         <div className="flex">
             {images.map((image, index) => (
                 <div key={image} onClick={() => setCurrent(index)} 
