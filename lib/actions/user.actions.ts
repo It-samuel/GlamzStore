@@ -14,7 +14,7 @@ import { shippingAddressSchema, paymentMethodSchema } from "../validators";
 // Sign in the user with credentials
 
 export async function signInWithCredentials(prevState: unknown,
-    formData: FormData) {
+    formData: FormData) { 
         try {
             const user = signInFormSchema.parse({
                 email: formData.get('email'),
