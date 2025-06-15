@@ -122,20 +122,29 @@ export const config = {
             return token
         },
         
-        // Fixed authorized callback
+        // Fixed authorized callback - removed duplicate code
         authorized({ request, auth}: any) {
             console.log('Authorized callback triggered');
             console.log('Auth object:', auth);
             console.log('Request URL:', request.nextUrl.pathname);
-            
-            // Check if user is authenticated for protected routes
+
+            // Get pathname from the request URL object (single declaration)
             const { pathname } = request.nextUrl;
-            
-            // Define protected routes
-            const protectedRoutes = ['/dashboard', '/profile', '/admin'];
-            const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
-            
-            if (isProtectedRoute && !auth) {
+
+            // Array of regex patterns of paths we want to protect
+            const protectedPaths = [
+                /^\/shipping-address/,
+                /^\/payment-method/,
+                /^\/place-order/,
+                /^\/profile/,
+                /^\/user\/.*/,
+                /^\/order\/.*/,
+                /^\/admin/,
+                /^\/dashboard/, // Added dashboard to regex patterns
+            ];
+
+            // Check if user is not authenticated and accessing a protected path
+            if (!auth && protectedPaths.some((pattern) => pattern.test(pathname))) {
                 console.log('Access denied - no auth for protected route');
                 return false;
             }
