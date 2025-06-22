@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { getOrderById } from '@/lib/actions/order.actions';
 import { notFound, redirect } from 'next/navigation';
-import OrderDetailsTable from '../order-details-table';
+import OrderDetailsTable from './order-details-table';
 import { ShippingAddress } from '@/types';
 import { auth } from '@/auth';
 
@@ -26,7 +26,9 @@ const OrderDetailsPage = async (props: {
     <OrderDetailsTable order={{
         ...order,
         shippingAddress: order.shippingAddress as ShippingAddress,
-    }}/>
+    }}
+    paypalClientId={process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || 'sb'}
+    />
   );
 };
 
